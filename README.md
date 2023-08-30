@@ -1,11 +1,12 @@
-CLI usage:
+# Build
 
-node crawler.js <start_url: string> <depth: number>
+`yarn compile`
 
-OR
-python crawler.py <start_url: string> <depth: number>
+# CLI usage
 
-Description:
+`node build/src/cli.js <start_url: string> <depth: number>`
+
+# Description
 
 Given a URL, the crawler will scan the webpage for any images and continue to every link inside that page and scan it as well.
 

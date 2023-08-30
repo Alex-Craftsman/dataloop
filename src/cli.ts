@@ -1,16 +1,19 @@
 import normalizeUrl from 'normalize-url';
 import WebCrawler from './crawler/crawler.class';
 
-const argIndexUrl = 'https://dataloop.ai/';
-const argDepth = '3';
+if (process.argv.length !== 4) {
+  console.log('Please provide two arguments');
+
+  throw new Error('Please provide two arguments');
+}
 
 const MIN_DEPTH = 0;
 const MAX_DEPTH = 100;
 
 try {
-  const normalizedURL: string = normalizeUrl(argIndexUrl);
+  const normalizedURL: string = normalizeUrl(process.argv[2]);
 
-  const normalizedDepth = parseInt(argDepth, 10);
+  const normalizedDepth = parseInt(process.argv[3], 10);
 
   if (isNaN(normalizedDepth)) {
     throw new Error('Depth must be a number');
