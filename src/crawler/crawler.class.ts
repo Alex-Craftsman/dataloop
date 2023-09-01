@@ -116,6 +116,10 @@ class WebCrawler {
 
     this.export();
   }
+
+  public getImages(): IImage[] {
+    return this.images;
+  }
 }
 
 export default WebCrawler;
