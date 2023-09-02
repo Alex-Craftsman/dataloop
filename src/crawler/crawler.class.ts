@@ -58,7 +58,7 @@ class WebCrawler {
   static async launch(
     url: string,
     depth = 0,
-    verbose = false
+    verbose = true
   ): Promise<WebCrawler> {
     // init puppeteer
     const puppeteerBrowser = await puppeteer.launch({ headless: 'new' });
@@ -79,6 +79,7 @@ DEPTH: ${chalk.cyan(depth)}
       url,
       depth,
       puppeteerPage: await puppeteerBrowser.newPage(),
+      verbose,
     });
   }
 
@@ -155,10 +156,16 @@ ${chalk.gray(`Depth: ${chalk.cyan(imagesToExport[i].depth)}`)}
     }
 
     // write images to file
-    return fs.writeFileSync(
+    fs.writeFileSync(
       `${EXPORT_FOLDER}/${EXPORT_PREFIX}-${this.base.hostname}-${this.sessionId}.json`,
       JSON.stringify({ result: imagesToExport } as IResult, null, 2)
     );
+
+    this.log(
+      chalk.gray(`Export finished @ ${chalk.cyan(new Date().toISOString())}, [${chalk.cyan(imagesToExport.length)}] images found`)
+    );
+
+    return;
   }
 
   // helper function to index a url

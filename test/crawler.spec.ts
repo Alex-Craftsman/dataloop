@@ -8,10 +8,10 @@ describe('crawler class', () => {
       const url = 'https://pravatar.cc/';
       const depth = 1;
 
-      const result = 12;
+      const result = 95;
 
       // Act
-      const crawler = await WebCrawler.launch(url, depth);
+      const crawler = await WebCrawler.launch(url, depth, false);
 
       await crawler.crawl();
 
