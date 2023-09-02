@@ -1,40 +1,71 @@
+#!/usr/bin/env node
+
 import normalizeUrl from 'normalize-url';
-import WebCrawler from './crawler/crawler.class';
+import meow from 'meow';
 
-if (process.argv.length !== 4) {
-  console.log('Please provide two arguments');
+import WebCrawler from './crawler/crawler.class.js';
+import {NORMALIZE_URL_PARAMS} from './const/crawler.const.js';
+import {IInput, InputSchema} from './validation/input.validation.js';
+import chalk from 'chalk';
 
-  throw new Error('Please provide two arguments');
-}
+// https://www.npmjs.com/package/meow
+const cli = meow(
+  `
+	Usage
+    $ ./crawler -u pravatar.cc -d 1
 
-const MIN_DEPTH = 0;
-const MAX_DEPTH = 100;
+	Options
+    --url, -u  URL to crawl
+    --depth, -d  crawl depth
+`,
+  {
+    importMeta: import.meta,
+    booleanDefault: undefined,
+    flags: {
+      url: {
+        type: 'string',
+        shortFlag: 'u',
+        isRequired: true,
+      },
+      depth: {
+        type: 'number',
+        default: 0,
+        shortFlag: 'd',
+      },
+    },
+  }
+);
 
 try {
-  const normalizedURL: string = normalizeUrl(process.argv[2]);
-
-  const normalizedDepth = parseInt(process.argv[3], 10);
-
-  if (isNaN(normalizedDepth)) {
-    throw new Error('Depth must be a number');
-  }
-
-  if (normalizedDepth < MIN_DEPTH || normalizedDepth > MAX_DEPTH) {
-    throw new Error(`Depth must be between ${MIN_DEPTH} and ${MAX_DEPTH}`);
-  }
-
-  if (!normalizedURL.startsWith('http')) {
-    throw new Error('URL must start with http');
-  }
-
-  const crawl = async (url: string, depth: number) => {
-    const webCrawler = await WebCrawler.launch(url, depth);
-    await webCrawler.crawl();
-  };
-
-  crawl(normalizedURL, normalizedDepth).then(() => {
-    throw new Error('Crawl finished');
+  // Validate user input
+  const input: IInput = await InputSchema.validate({
+    url: normalizeUrl(cli.flags.url, NORMALIZE_URL_PARAMS),
+    depth: cli.flags.depth,
   });
-} catch (e) {
-  console.error(e);
+
+  // Get WebCrawler instance
+  const webCrawler: WebCrawler = await WebCrawler.launch(
+    input.url,
+    input.depth
+  );
+
+  // Crawl!
+  await webCrawler
+    .crawl()
+    .then(() => {
+      // do something with the result, if you wish
+    })
+    .finally(() => {
+      if (webCrawler) {
+        // close the browser
+        webCrawler.finish();
+      }
+    });
+} catch (err: unknown) {
+  // handle errors
+  if (err instanceof Error) {
+    console.error(chalk.gray(`Error thrown: ${chalk.red(err.message)}`));
+  } else {
+    console.error(chalk.red(err));
+  }
 }

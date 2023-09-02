@@ -10,11 +10,16 @@
     "strict": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "build",
+    "outDir": "dist",
     "lib": ["es2020", "dom"],
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
-  "exclude": ["node_module"],
+  "include": [
+    "src/**/*.ts", 
+    "test/**/*.ts", 
+    "jest.config.cjs", 
+    "babel.config.cjs"
+  ],
+  "exclude": ["node_modules"],
   "ts-node": {
     "esm": true
   }
