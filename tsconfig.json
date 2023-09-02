@@ -10,7 +10,7 @@
     "strict": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "build",
+    "outDir": "dist",
     "lib": ["es2020", "dom"],
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],

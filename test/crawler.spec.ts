@@ -1,4 +1,4 @@
-import WebCrawler from '../src/crawler/crawler.class';
+import WebCrawler from '../src/crawler/crawler.class.js';
 
 describe('crawler class', () => {
   test(

@@ -1,6 +1,8 @@
 import {Page} from 'puppeteer';
 
 export interface IOpts {
+  verbose?: boolean;
+
   url: string;
   depth: number;
 
