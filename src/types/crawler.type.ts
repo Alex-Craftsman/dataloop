@@ -1,5 +1,6 @@
 import {Page} from 'puppeteer';
 
+// crawler options
 export interface IOpts {
   verbose?: boolean;
 
@@ -9,12 +10,14 @@ export interface IOpts {
   puppeteerPage: Page;
 }
 
+// image data structure
 export interface IImage {
   imageUrl: string;
   sourceUrl: string;
   depth: number;
 }
 
+// result data structure
 export interface IResult {
   result: IImage[];
 }

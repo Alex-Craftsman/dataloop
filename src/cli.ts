@@ -8,6 +8,7 @@ import {NORMALIZE_URL_PARAMS} from './const/crawler.const.js';
 import {IInput, InputSchema} from './validation/input.validation.js';
 import chalk from 'chalk';
 
+// https://www.npmjs.com/package/meow
 const cli = meow(
   `
 	Usage
@@ -36,6 +37,7 @@ const cli = meow(
 );
 
 try {
+  // Validate user input
   const input: IInput = await InputSchema.validate({
     url: normalizeUrl(cli.flags.url, NORMALIZE_URL_PARAMS),
     depth: cli.flags.depth,
@@ -55,10 +57,12 @@ try {
     })
     .finally(() => {
       if (webCrawler) {
+        // close the browser
         webCrawler.finish();
       }
     });
 } catch (err: unknown) {
+  // handle errors
   if (err instanceof Error) {
     console.error(chalk.gray(`Error thrown: ${chalk.red(err.message)}`));
   } else {
