@@ -1,10 +1,22 @@
+# Requirements
+
+1. Node 18+
+
+2. Docker 19+
+
+3. Yarn package manager
+
+4. Bash
+
 # Build
 
-`yarn compile`
+1. `yarn`
+
+2. `make build`
 
 # CLI usage
 
-`node dist/src/cli.js <start_url: string> <depth: number>`
+`./crawler.sh -u start-url -d some-depth`
 
 # Description
 
@@ -15,4 +27,7 @@ The crawling should stop once <depth> is reached. depth=3 means we can go as dee
 # TODO
 
 - Multiple threads
+
 - Rate limiter
+
+- More tests coverage
